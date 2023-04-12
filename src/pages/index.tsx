@@ -1,6 +1,8 @@
+import Link from 'next/link';
 import Head from 'next/head';
-import Image from 'next/image';
 import { Inter } from 'next/font/google';
+
+import Image from 'next/image';
 import styles from '@/styles/Home.module.css';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -15,9 +17,15 @@ export default function Home() {
                 <link rel='icon' href='/favicon.ico' />
             </Head>
             <main className={styles.main}>
-                <div>
-                    <h1>This is the home page</h1>
-                </div>
+                <h1>This is the home page</h1>
+                <ul>
+                    <li>
+                        <Link href='/portfolio'>Portfolio</Link>
+                    </li>
+                    <li>
+                        <Link href='/clients'>Clients</Link>
+                    </li>
+                </ul>
             </main>
         </>
 

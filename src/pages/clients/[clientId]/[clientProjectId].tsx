@@ -6,8 +6,8 @@ import styles from '@/styles/Home.module.css';
 export default function SelectedClientProjectPage() {
     const router = useRouter();
 
-    console.log(router.pathname); // /clients/[clientId]/[client-project-id]
-    console.log(router.query); // { "clientId": "1","client-project-id": "2" }
+    console.log(router.pathname); // /clients/[clientId]/[clientProjectId]
+    console.log(router.query); // { "clientId": "1","clientProjectId": "2" }
 
     return (
         <>
