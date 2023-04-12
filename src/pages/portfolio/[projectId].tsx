@@ -6,8 +6,8 @@ import styles from '@/styles/Home.module.css';
 export default function PortfolioProject() {
     const router = useRouter();
 
-    console.log(router.pathname); // /portfolio/[project-id]
-    console.log(router.query); // { "project-id": "1" }
+    console.log(router.pathname); // /portfolio/[projectId]
+    console.log(router.query); // { "projectId": "1" }
 
     // then we can send request to some server
     // to fetch the piece of data with an id of router.query.projectId

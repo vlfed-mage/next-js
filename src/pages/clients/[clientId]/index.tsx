@@ -9,6 +9,16 @@ export default function ClientProjectPage() {
     console.log(router.pathname); // /clients/[clientId]
     console.log(router.query); // { "clientId": "1" }
 
+    const loadProjectHandler = () => {
+        // load data...
+        // router.push('//clients/vlad/project-a/vlad/project-a');
+        // or
+        router.push({
+            pathname: '/clients/[clientId]/[clientProjectId]',
+            query: { clientId: 'vlad', clientProjectId: 'project-a' },
+        });
+    };
+
     return (
         <>
             <Head>
@@ -19,6 +29,7 @@ export default function ClientProjectPage() {
             </Head>
             <main className={styles.main}>
                 <h1>Client project page</h1>
+                <button onClick={loadProjectHandler}>Load project A</button>
             </main>
         </>
     );
