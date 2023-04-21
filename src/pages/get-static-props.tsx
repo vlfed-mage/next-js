@@ -34,6 +34,7 @@ function Home({ products }: Products) {
 }
 
 export async function getStaticProps() {
+    console.log('(Re-)Generating...');
     const dataPath = path.join(process.cwd(), 'data', 'dummy-backend.json');
     const jsonData = await fs.readFile(dataPath);
     const data = JSON.parse(jsonData.toString());
@@ -45,6 +46,7 @@ export async function getStaticProps() {
         props: {
             products: data.products,
         },
+        revalidate: 10,
     };
 }
 

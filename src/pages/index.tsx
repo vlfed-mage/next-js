@@ -24,7 +24,7 @@ function Home({ products }: Products) {
                         <Link href='/clients'>Clients</Link>
                     </li>
                     <li>
-                        <Link href='/get-static-props'>Clients</Link>
+                        <Link href='/get-static-props'>getStaticProps</Link>
                     </li>
                 </ul>
                 <hr />
