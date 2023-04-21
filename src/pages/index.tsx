@@ -23,6 +23,9 @@ function Home({ products }: Products) {
                     <li>
                         <Link href='/clients'>Clients</Link>
                     </li>
+                    <li>
+                        <Link href='/get-static-props'>Clients</Link>
+                    </li>
                 </ul>
                 <hr />
                 <h2>getStaticProps example</h2>
