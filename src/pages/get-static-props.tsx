@@ -1,3 +1,4 @@
+import { GetStaticProps, GetStaticPropsResult } from 'next';
 import fs from 'fs/promises'; // file system node.js module
 import path from 'path';
 
@@ -5,6 +6,7 @@ import Head from 'next/head';
 import { Products } from '@/global/types';
 
 import styles from '@/styles/Home.module.css';
+import { Redirect } from 'next/types';
 
 function Home({ products }: Products) {
     return (
@@ -33,21 +35,47 @@ function Home({ products }: Products) {
     );
 }
 
-export async function getStaticProps() {
+export const getStaticProps: GetStaticProps = async (): Promise<GetStaticPropsResult<Products>> => {
     console.log('(Re-)Generating...');
     const dataPath = path.join(process.cwd(), 'data', 'dummy-backend.json');
     const jsonData = await fs.readFile(dataPath);
-    const data = JSON.parse(jsonData.toString());
+    const data: Products = JSON.parse(jsonData.toString());
 
     // process - object which is globally available in node.js
     // cwd - current working directory
+
+    // may returns:
+    // { props: Props; revalidate?: number | boolean }
+    // | { redirect: Redirect; revalidate?: number | boolean }
+    // | { notFound: true; revalidate?: number | boolean };
+
+    if (!data) {
+        return {
+            redirect: {
+                permanent: false,
+                destination: '/', // can redirect to diff page
+            },
+        };
+    }
+
+    // or
+
+    if (data.products.length === 0) {
+        return {
+            notFound: true, // show 404 page instead current one
+        };
+    }
 
     return {
         props: {
             products: data.products,
         },
-        revalidate: 10,
+        revalidate: 10, // (re)generation every 10 seconds
+        // notFound: true, // show 404 page instead current one
+        // redirect: {
+        //     destination: '/', // can redirect to diff page
+        // },
     };
-}
+};
 
 export default Home;
