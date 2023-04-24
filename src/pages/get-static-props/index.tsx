@@ -1,14 +1,15 @@
 import { GetStaticProps, GetStaticPropsResult } from 'next';
-import fs from 'fs/promises'; // file system node.js module
-import path from 'path';
-
-import Head from 'next/head';
 import { Products } from '@/global/types';
 
+import Head from 'next/head';
 import styles from '@/styles/Home.module.css';
-import { Redirect } from 'next/types';
+import { getData } from '@/services';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 
-function Home({ products }: Products) {
+function GetStaticPropsExample({ products }: Products) {
+    const { pathname } = useRouter();
+
     return (
         <>
             <Head>
@@ -20,11 +21,11 @@ function Home({ products }: Products) {
             <main className={styles.main}>
                 <h1>getStaticProps in action</h1>
                 <ul>
-                    {products.map(product => {
+                    {products?.map(product => {
                         const { id, title, description } = product;
                         return (
                             <li key={id}>
-                                <p>{title}</p>
+                                <Link href={`${pathname}/${id}`}>{title}</Link>
                                 <p>{description}</p>
                             </li>
                         );
@@ -37,9 +38,7 @@ function Home({ products }: Products) {
 
 export const getStaticProps: GetStaticProps = async (): Promise<GetStaticPropsResult<Products>> => {
     console.log('(Re-)Generating...');
-    const dataPath = path.join(process.cwd(), 'data', 'dummy-backend.json');
-    const jsonData = await fs.readFile(dataPath);
-    const data: Products = JSON.parse(jsonData.toString());
+    const data = await getData();
 
     // process - object which is globally available in node.js
     // cwd - current working directory
@@ -60,7 +59,7 @@ export const getStaticProps: GetStaticProps = async (): Promise<GetStaticPropsRe
 
     // or
 
-    if (data.products.length === 0) {
+    if (data.products?.length === 0) {
         return {
             notFound: true, // show 404 page instead current one
         };
@@ -78,4 +77,4 @@ export const getStaticProps: GetStaticProps = async (): Promise<GetStaticPropsRe
     };
 };
 
-export default Home;
+export default GetStaticPropsExample;
