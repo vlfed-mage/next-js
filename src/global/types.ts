@@ -7,3 +7,15 @@ export interface Product {
 export interface Products {
     products: Product[];
 }
+
+export interface ProductDetailsPageProps {
+    product: Product;
+}
+
+export interface Username {
+    username: string;
+}
+
+export interface UserIdPageProps {
+    userId: string;
+}
