@@ -1,12 +1,8 @@
 import { getData } from '@/services';
 import { GetStaticProps, GetStaticPaths } from 'next';
-import { Product } from '@/global/types';
+import { Product, ProductDetailsPageProps } from '@/global/types';
 import Head from 'next/head';
 import styles from '@/styles/Home.module.css';
-
-interface ProductDetailsPageProps {
-    product: Product;
-}
 
 function ProductDetailsPage({ product }: ProductDetailsPageProps) {
     // if fallback set to true
@@ -22,8 +18,8 @@ function ProductDetailsPage({ product }: ProductDetailsPageProps) {
     return (
         <>
             <Head>
-                <title>Create Next App</title>
-                <meta name='description' content='Home page' />
+                <title>Details page with fetching data</title>
+                <meta name='description' content='Details page with fetching data' />
                 <meta name='viewport' content='width=device-width, initial-scale=1' />
                 <link rel='icon' href='/favicon.ico' />
             </Head>
