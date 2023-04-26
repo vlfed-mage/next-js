@@ -1,5 +1,5 @@
 import { getData } from '@/services';
-import { GetStaticProps, GetStaticPaths, GetStaticPropsResult, GetStaticPropsContext } from 'next';
+import { GetStaticProps, GetStaticPaths } from 'next';
 import { Product } from '@/global/types';
 import Head from 'next/head';
 import styles from '@/styles/Home.module.css';
@@ -9,7 +9,16 @@ interface ProductDetailsPageProps {
 }
 
 function ProductDetailsPage({ product }: ProductDetailsPageProps) {
-    console.log(product);
+    // if fallback set to true
+    if (!product) {
+        return (
+            <main className={styles.main}>
+                <div>Loading...</div>
+            </main>
+        );
+    }
+
+    const { title, description } = product;
     return (
         <>
             <Head>
@@ -19,7 +28,10 @@ function ProductDetailsPage({ product }: ProductDetailsPageProps) {
                 <link rel='icon' href='/favicon.ico' />
             </Head>
             <main className={styles.main}>
-                <h2>getStaticProps details page example</h2>
+                <div>
+                    <h2>{title}</h2>
+                    <span>{description}</span>
+                </div>
             </main>
         </>
     );
@@ -28,26 +40,29 @@ function ProductDetailsPage({ product }: ProductDetailsPageProps) {
 export const getStaticProps: GetStaticProps = async context => {
     const data = await getData();
     const { params } = context;
+    const loadedProduct: Product | undefined = data.products?.find(product => product.id === params?.productId);
 
-    if (!params) {
+    if (!loadedProduct) {
         return {
             notFound: true,
         };
     }
 
-    const { productId } = params;
-
     return {
         props: {
-            product: data.products?.find(product => product.id === productId),
+            product: loadedProduct,
         },
     };
 };
 
-export const getStaticPaths: GetStaticPaths = () => {
+export const getStaticPaths: GetStaticPaths = async () => {
+    const data = await getData();
+
     return {
-        paths: [{ params: { productId: 'p1' } }, { params: { productId: 'p2' } }, { params: { productId: 'p3' } }],
-        fallback: false,
+        // paths: data.products.map(product => ({ params: { productId: product.id } })),
+        paths: [{ params: { productId: 'p1' } }], // you can prerender not all data
+        fallback: true, // if true, you can prerender not all data
+        // fallback: 'blocking', // if blocking', you can prerender not all data without conditions
     };
 };
 
