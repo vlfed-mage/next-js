@@ -25,7 +25,7 @@ function Home() {
                         <Link href='/get-static-props'>getStaticProps</Link>
                     </li>
                     <li>
-                        <Link href='/user-profile'>getServerSideProps</Link>
+                        <Link href='/get-server-side-props'>getServerSideProps</Link>
                     </li>
                 </ul>
                 <hr />
